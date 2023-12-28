@@ -23,6 +23,11 @@ def run(cookie = None, hash = None, key = None, course = None):
     if course == None:
 
         course = -1
+        course_type = 'school'
+        #全校乱选课（默认） school
+        #本学院其他年级课 cross
+        #其他学院专业课 others
+        #本学院课程 ？这你都选不到吗
         while course == -1:
             try:
                 course = access.get_course(cookie,  [])
