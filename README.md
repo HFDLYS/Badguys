@@ -10,8 +10,7 @@
 ## 环境配置
 ### python3环境
 ```
-pip install BeautifulSoup
-pip install requests
+pip install -r requirements.txt
 ```
 
 
