@@ -1,29 +1,49 @@
-import access
+import spider
+import constants
 
-
-def run(cookie = None, hash = None, key = None, course = None):
+def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
     if cookie == None:
-        log = input('请输入学号：')     #可以直接写上去哦
-        pwd = input('请输入密码：')     #23级密码为身份证后六位 
-        cookie = access.login(log, pwd)
+        log = None
+        pwd = None
+        with open("account.txt", "r") as f:
+            log = f.readline().strip()
+            pwd = f.readline().strip()
+        if log == None or pwd == None:
+            log = input('请输入学号：')     #可以直接写上去哦
+            pwd = input('请输入密码：')     #23级密码为身份证后六位 
+        cookie = spider.login(log, pwd)
         if 'sessionid' not in cookie:
             print('登录失败！')
             return -1
+    if delete != None:
+        for delete_course in delete:
+            retry = constants.RETRY
+            message = ''
+            while retry > 0:
+                try:
+                    message = spider.delete_course(cookie, delete_course)
+                    break
+                except:
+                    retry -= 1
+            if message != '':
+                decode = spider.message_analysis(cookie, message)
+                print(decode)
+            
     if hash == None or key == None:
-        hash = access.get_captcha(cookie)
+        hash = spider.get_captcha(cookie)
 
         print('验证码已保存至.\dataset\\' + hash + '.png')
         print('Hash: ' + hash)
         key = input('请输入验证码：')
         if key == '' or key == None or key[0] == ' ':
-            hash = access.get_captcha_dataset(cookie)
+            hash = spider.get_captcha_dataset(cookie)
             print('验证码已保存至.\dataset\\' + hash + '.png')
             print('Hash: ' + hash)
             key = input('请输入验证码：')
     if course == None:
 
         
-        course_type = 'school'
+        course_type = 'cross'
         #全校乱选课（默认） school
         #本学院其他年级课 cross
         #其他学院专业课 others
@@ -41,18 +61,25 @@ def run(cookie = None, hash = None, key = None, course = None):
         course = -1
         while course == -1:
             try:
-                course = access.get_course(cookie,  course_name, course_type)
+                course = spider.get_course(cookie,  course_name, course_type)
             except:
                 pass
     if course == []:
         print('蒸🐟🐟，没这课了😭')
     print(cookie, hash, key, course)
     #防止一次失败
-    for _ in range(10):
-        message = access.post(cookie, hash, key, course)
-        if message != -1:
-            print(access.message_analysis(cookie, message))
+    retry = constants.RETRY
+    message = ''
+    while retry > 0:
+        try:
+            message = spider.submit_course(cookie, hash, key, course)
+            print(message)
             break
+        except:
+            retry -= 1
+    if message != '':
+        decode = spider.message_analysis(cookie, message)
+        print(decode)
 
 
 if __name__ == '__main__':
@@ -60,9 +87,11 @@ if __name__ == '__main__':
     # cookie = {'csrftoken': '🐱🐱🐱🐱🐱', 'sessionid': '🐟🐟🐟🐟🐟'}       由login()获取
     # hash = '🐱🐱🐱🐱🐱'       由get_captcha()获取
     # key = '🐟🐟🐟🐟🐟'        由你的眼睛获取
+    # delete = ['000000', '000000', '000000', '000000', '000000', '000000']     #这是你不想要的课，自己去看看课程号是什么
     # course = ['000000', '000000', '000000', '000000', '000000', '000000']     #课程号，一般可以通过执行一次get_course()获取
     cookie = None
     hash = None
     key = None
+    delete = []
     course = None
-    run(cookie, hash, key, course)
+    run(cookie, hash, key, delete, course)

@@ -75,14 +75,15 @@ def get_captcha_dataset(cookie):
     return hash
 
 def message_analysis(cookie, message):
-    cookie['messages'] = message
-    content = requests.get(constants.ANALYSIS_URL, cookies=cookie, headers=constants.HEADERS).content
+    _cookie = cookie.copy()
+    _cookie['messages'] = message
+    content = requests.get(constants.ANALYSIS_URL, cookies=_cookie, headers=constants.HEADERS).content
     t = re.search(r'message \+= "(.*?)<br/>";', str(content), re.M|re.I)
     t = t.group(1)
-    t = t.encode('latin1').decode('utf8')
+    t = t.encode('latin1').decode('unicode_escape').encode('latin1').decode('utf-8')
     return t
 
-def post(cookie, hash, answer, course):    
+def submit_course(cookie, hash, answer, course):    
     checkboxs = ''
     for i in course:
         checkboxs += i + ','
@@ -94,16 +95,32 @@ def post(cookie, hash, answer, course):
         'answer': answer,
     }
 
-    res = requests.post(constants.POST_URL, data=payload, cookies=cookie, headers=constants.HEADERS)
+    res = requests.post(constants.POST_URL, data=payload, cookies=cookie, headers=constants.HEADERS, allow_redirects=False)
+    open('res.html', 'w').write(res.text)
     res = eval(str(res.headers))
     resurt = res['Set-Cookie']
-    print(res)
+    print(resurt)
+    if 'message' in resurt:
+        t = re.search('messages=(.*?);', resurt)
+        print(t.group(1))
+        return t.group(1) 
+    else:
+        print('部分（或全部）选课失败！或验证码错误🤔我不知道喵')
+        raise Exception
+
+def delete_course(cookie, course):
+    
+    payload = {
+        'select_id': course,
+    }
+    res = requests.post(constants.DELETE_URL, data=payload, cookies=cookie, headers=constants.HEADERS, allow_redirects=False)
+    res = eval(str(res.headers))
+    resurt = res['Set-Cookie']
+    print(resurt)
     if 'message' in resurt:
         t = re.search('messages=(.*?);', resurt)
         return t.group(1) 
     else:
-        print('部分（或全部）选课失败！或验证码错误🤔我不知道喵')
-        return -1
-
-    
+        print('部分（或全部）退课失败！我不知道喵')
+        raise Exception
     
