@@ -76,6 +76,7 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
             print(message)
             break
         except:
+            print('失败！重试中...，剩余次数：', retry - 1, '次')
             retry -= 1
     if message != '':
         decode = spider.message_analysis(cookie, message)
@@ -93,5 +94,5 @@ if __name__ == '__main__':
     hash = None
     key = None
     delete = []
-    course = None
+    course = ["3479108"]
     run(cookie, hash, key, delete, course)

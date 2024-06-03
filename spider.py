@@ -96,7 +96,6 @@ def submit_course(cookie, hash, answer, course):
     }
 
     res = requests.post(constants.POST_URL, data=payload, cookies=cookie, headers=constants.HEADERS, allow_redirects=False)
-    open('res.html', 'w').write(res.text)
     res = eval(str(res.headers))
     resurt = res['Set-Cookie']
     print(resurt)
