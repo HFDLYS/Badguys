@@ -33,6 +33,8 @@ def get_captcha(cookie):
     path = 'dataset/' + hash + '.png'
     with open(path, 'wb') as f:
         f.write(content)
+    print('验证码已保存至.\dataset\\' + hash + '.png')
+    print('Hash: ' + hash)
     Image.open(path).show()
     return hash
 

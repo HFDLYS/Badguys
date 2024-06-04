@@ -32,17 +32,9 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
                 decode = spider.message_analysis(cookie, message)
                 print(decode)
             
-    if hash == None or key == None:
+    while hash == None or key == None or key == '' or key == " " or (len(key) != 4):  #防止不输入验证码
         hash = spider.get_captcha(cookie)
-
-        print('验证码已保存至.\dataset\\' + hash + '.png')
-        print('Hash: ' + hash)
-        key = input('请输入验证码：')
-        if key == '' or key == None or key[0] == ' ':
-            hash = spider.get_captcha_dataset(cookie)
-            print('验证码已保存至.\dataset\\' + hash + '.png')
-            print('Hash: ' + hash)
-            key = input('请输入验证码：')
+        key = input('请输入验证码：（不输入则重新获取）')
     if course == None:
 
         
@@ -97,9 +89,18 @@ if __name__ == '__main__':
     # delete = ['000000', '000000', '000000', '000000', '000000', '000000']     #这是你不想要的课，自己去看看课程号是什么
     # course = ['000000', '000000', '000000', '000000', '000000', '000000']     #课程号
     # 如果设置成 None 则可以通过执行一次get_course()获取
+    
+    op = input('是否提前获取验证码？(y/n)')
+    
     cookie = None
     hash = None
     key = None
     delete = []
     course = None
-    run(cookie, hash, key, delete, course)
+    
+    if op == 'y':
+        while hash == None or key == None or key == '' or key == " " or (len(key) != 4):
+            hash = spider.get_captcha(cookie)
+            key = input('请输入验证码：（不输入则重新获取）')
+    
+    # run(cookie, hash, key, delete, course)
