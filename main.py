@@ -59,9 +59,9 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
             try:
                 course = spider.get_course(cookie,  course_name, course_type)
             except:
-                retry -= 1
-                print('获取课程失败！重试中...，剩余次数：', retry, '次')
                 pass
+            retry -= 1
+            print('获取课程失败！重试中...，剩余次数：', retry, '次')
         if course == -1:
             print('获取课程失败！')
             exit()
@@ -109,4 +109,4 @@ if __name__ == '__main__':
             hash = spider.get_captcha(cookie)
             key = input('请输入验证码：（不输入则重新获取）')
     
-    # run(cookie, hash, key, delete, course)
+    run(cookie, hash, key, delete, course)
