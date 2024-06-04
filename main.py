@@ -54,11 +54,17 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
         '''
 
         course = -1
-        while course == -1:
+        retry = constants.RETRY
+        while course == -1 and retry > 0:
             try:
                 course = spider.get_course(cookie,  course_name, course_type)
             except:
+                retry -= 1
+                print('获取课程失败！重试中...，剩余次数：', retry, '次')
                 pass
+        if course == -1:
+            print('获取课程失败！')
+            exit()
     if course == []:
         print('蒸🐟🐟，没这课了😭')
     print(cookie, hash, key, course)
