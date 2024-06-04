@@ -1,7 +1,7 @@
 LOGIN_URL = 'https://aa.bjtu.edu.cn/client/login/'
 CAPTCHA_URL = 'https://aa.bjtu.edu.cn/captcha/refresh/'
 POST_URL = 'https://aa.bjtu.edu.cn/course_selection/courseselecttask/selects_action/?action=submit'
-COURSE_URL = 'https://aa.bjtu.edu.cn/course_selection/courseselecttask/selects_action/?zxjxjhh=&kch={}&action=load&iframe={}&submit=+%E6%9F%A5+%E8%AF%A2+&has_advance_query=&page=1&perpage=1000'
+COURSE_URL = 'https://aa.bjtu.edu.cn/course_selection/courseselecttask/selects_action/?zxjxjhh=&kch={}&action=load&iframe={}&submit=+%E6%9F%A5+%E8%AF%A2+&has_advance_query=&page=1&perpage=8000'
 ANALYSIS_URL = 'https://aa.bjtu.edu.cn/course_selection/courseselecttask/selects/'
 DELETE_URL = 'https://aa.bjtu.edu.cn/course_selection/courseselecttask/selects_action/?action=delete'
 

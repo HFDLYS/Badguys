@@ -5,10 +5,13 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
     if cookie == None:
         log = None
         pwd = None
-        with open("account.txt", "r") as f:
-            log = f.readline().strip()
-            pwd = f.readline().strip()
-        if log == None or pwd == None:
+        try:
+            with open("account.txt", "r") as f:
+                log = f.readline().strip()
+                pwd = f.readline().strip()
+            if log == '' or pwd == '' or log == None or pwd == None:
+                raise Exception
+        except:
             log = input('请输入学号：')     #可以直接写上去哦
             pwd = input('请输入密码：')     #23级密码为身份证后六位 
         cookie = spider.login(log, pwd)
