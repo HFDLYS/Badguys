@@ -85,7 +85,8 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
 
 if __name__ == '__main__':
     # 参数样例如下
-    # cookie = {'csrftoken': '🐱🐱🐱🐱🐱', 'sessionid': '🐟🐟🐟🐟🐟'}       由login()获取
+    # cookie = {'csrftoken': '🐱🐱🐱🐱🐱', 'sessionid': '🐟🐟🐟🐟🐟'}
+    # 不写也行，会自动读取account.txt，或者自己输入
     # hash = '🐱🐱🐱🐱🐱'       由get_captcha()获取
     # key = '🐟🐟🐟🐟🐟'        由你的眼睛获取
     # delete = ['000000', '000000', '000000', '000000', '000000', '000000']     #这是你不想要的课，自己去看看课程号是什么
@@ -94,5 +95,5 @@ if __name__ == '__main__':
     hash = None
     key = None
     delete = []
-    course = ["3479108"]
+    course = []
     run(cookie, hash, key, delete, course)
