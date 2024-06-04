@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ## 使用方法
 ### 参数配置
 main.py 内 run() 函数，自己根据需求配置参数  
-可在文件"account.txt"中配置账号密码，也可在run()函数中直接配置cookie  
+可在文件"account.txt"（需要自己创建的呀）中配置账号密码，也可在run()函数中直接配置cookie  
 account.txt格式如下：  
 ```
 23301999
