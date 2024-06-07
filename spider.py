@@ -36,12 +36,14 @@ def get_captcha(cookie):
     print('验证码已保存至.\dataset\\' + hash + '.png')
     print('Hash: ' + hash)
     Image.open(path).show()
-    return hash
+    return hash, content
 
-def get_course(cookie, keyword, type = 'school'):
-    #type = 'school' or 'cross' or 'others'
-    url = constants.COURSE_URL.format('',type)
+def get_course(cookie, keyword, typec = 'school'):
+    #typec = 'school' or 'cross' or 'others'
+    url = constants.COURSE_URL.format('', typec)
     content = requests.get(url, cookies=cookie, headers= constants.HEADERS).content
+    with open('course.html', 'wb') as f:
+        f.write(content)
     soup = BeautifulSoup(content, 'html.parser')
     table = soup.find('table')
     if not table:
@@ -86,10 +88,7 @@ def message_analysis(cookie, message):
     return t
 
 def submit_course(cookie, hash, answer, course):    
-    checkboxs = ''
-    for i in course:
-        checkboxs += i + ','
-    checkboxs = checkboxs[:-1]
+    checkboxs = ','.join(course)
     payload = {
         'checkboxs': checkboxs,
         #'is_cross': is_cross,
