@@ -64,6 +64,7 @@ def get_course(cookie, keyword, typec = 'school'):
         
         for i in keyword:
             if i in cols[2].text:
+                print("找到了！" + i)
                 data.append(cols[0])
     return data
 
