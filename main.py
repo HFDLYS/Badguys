@@ -33,12 +33,12 @@ def run(cookie = None, hash = None, key = None, delete = [] ,course = None):
                 print(decode)
             
     while hash == None or key == None or key == '' or key == " " or (len(key) != 4):  #防止不输入验证码
-        hash = spider.get_captcha(cookie)
+        hash, content = spider.get_captcha(cookie)
         key = input('请输入验证码：（不输入则重新获取）')
     if course == None:
 
         
-        course_type = 'cross'
+        course_type = 'school'
         #全校乱选课（默认） school
         #本学院其他年级课 cross
         #其他学院专业课 others
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     
     if op == 'y':
         while hash == None or key == None or key == '' or key == " " or (len(key) != 4):
-            hash = spider.get_captcha(cookie)
+            hash, content = spider.get_captcha(cookie)
             key = input('请输入验证码：（不输入则重新获取）')
     
     run(cookie, hash, key, delete, course)
